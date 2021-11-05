@@ -143,15 +143,15 @@ ___TEMPLATE_PARAMETERS___
           },
           {
             "value": "viewList",
-            "displayValue": "Listing"
+            "displayValue": "Listing Page"
           },
           {
             "value": "viewItem",
-            "displayValue": "Product"
+            "displayValue": "Product Page"
           },
           {
             "value": "viewBasket",
-            "displayValue": "Basket"
+            "displayValue": "Basket Page"
           },
           {
             "value": "addToCart",
@@ -163,7 +163,19 @@ ___TEMPLATE_PARAMETERS___
           },
           {
             "value": "viewStore",
-            "displayValue": "Physical Store View"
+            "displayValue": "Store View"
+          },
+          {
+            "value": "setStore",
+            "displayValue": "Recommended Store"
+          },
+          {
+            "value": "reserveInStore",
+            "displayValue": "Reserve Product in Store"
+          },
+          {
+            "value": "checkAvailability",
+            "displayValue": "Check Product Availability"
           }
         ],
         "simpleValueType": true,
@@ -185,6 +197,16 @@ ___TEMPLATE_PARAMETERS___
           {
             "paramName": "type",
             "paramValue": "viewItem",
+            "type": "EQUALS"
+          },
+          {
+            "paramName": "type",
+            "paramValue": "reserveInStore",
+            "type": "EQUALS"
+          },
+          {
+            "paramName": "type",
+            "paramValue": "checkAvailability",
             "type": "EQUALS"
           }
         ],
@@ -647,6 +669,9 @@ const makeInteger = require('makeInteger');
 const makeNumber = require('makeNumber');
 const makeString = require('makeString');
 
+var storeEvents = ["viewStore", "setStore", "reserveInStore", "checkAvailability"];
+var isStoreEvent = storeEvents.indexOf(data.type)!=-1;
+
 if(data.debug_mode){
   log("--- Criteo OneTag Start ---");
   log(data);
@@ -685,7 +710,6 @@ var evt_type = data.type;
 if(evt_type){
   evt = {event: evt_type};
   if(data.type == "viewList"){
-    evt.item = data.list;
     if(data.keywords)
       evt.keywords = data.keywords;
     if(data.category)
@@ -697,15 +721,12 @@ if(evt_type){
   }
 
   if(data.type == "viewItem"){
-    evt.item = data.item;
     if(data.availability)
       evt.availability = !!data.availability;
     if(data.price)
       evt.price = makeNumber(data.price);
   }
 
-  if(data.type == "addToCart" || data.type == "viewBasket" || data.type == "trackTransaction")
-    evt.item = data.basket;
   if(data.type == "trackTransaction"){
     evt.id = data.transaction_id;
     if(!!data.store_sale){
@@ -717,7 +738,8 @@ if(evt_type){
         evt.zipcode = data.zipcode;
     }
   }
-  if(data.type == "viewStore"){
+  
+  if(isStoreEvent){
     if(data.store_id)
       evt.store_id = data.store_id;
     if(data.zipcode)
@@ -743,9 +765,18 @@ if(evt_type){
       evt[key] = value;  
     }
   }
-
+  
+  if(data.item)
+    evt.item = data.item;
+  if(data.list)
+    evt.item = data.list;
+  if(data.basket)
+    evt.item = data.basket;
+  
   events.push(evt);
 }
+
+
 
 // User Identifiers
 if(data.visitorId){
@@ -797,7 +828,7 @@ if(data.travel)
 // Store Parameters
 if(data.store)
 {
-  if(data.type != "viewStore" && !data.store_sale){
+  if(!isStoreEvent && !data.store_sale){
     if(data.zipcode){
       evt = {event: "setZipcode"};
       evt.zipcode = data.zipcode;
@@ -1067,3 +1098,4 @@ setup: |-
 ___NOTES___
 
 Created on 29/10/2021, 18:21:46
+
