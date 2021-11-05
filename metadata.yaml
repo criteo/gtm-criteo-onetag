@@ -13,3 +13,7 @@
 # limitations under the License.
 
 homepage: "https://www.criteo.com/"
+documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
+versions:
+  - sha: 1b3b0b8271cf8413fd0ac4acea166205ba5ff1cb
+    changeNotes: Initial release
