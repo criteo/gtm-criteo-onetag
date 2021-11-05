@@ -232,7 +232,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "help": "Confirmation or Order #"
       },
       {
         "type": "TEXT",
@@ -260,7 +261,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "help": "List of products in the user\u0027s basket (array).\nExample: [{id: \"a123\", price: 475, quantity: 1}]"
       },
       {
         "type": "TEXT",
@@ -304,15 +306,18 @@ ___TEMPLATE_PARAMETERS___
               {
                 "type": "NON_EMPTY"
               }
-            ]
+            ],
+            "alwaysInSummary": true,
+            "help": "List of Product IDs viewed by the user (array).\nExample: [\"a123\", \"b456\", \"c789\"]"
           },
           {
             "type": "TEXT",
             "name": "keywords",
             "displayName": "Keywords (Optional)",
             "simpleValueType": true,
-            "help": "Keyword searched by the user (string)",
-            "enablingConditions": []
+            "help": "Keywords searched by the user (string)",
+            "enablingConditions": [],
+            "valueHint": "red shoes"
           },
           {
             "type": "TEXT",
@@ -368,7 +373,8 @@ ___TEMPLATE_PARAMETERS___
             "type": "EQUALS"
           }
         ],
-        "help": "3-letter currency code (e.g. \"USD\")"
+        "help": "3-letter currency code (string). Example: \"USD\"",
+        "valueHint": "USD"
       }
     ]
   },
@@ -479,7 +485,8 @@ ___TEMPLATE_PARAMETERS___
             "type": "TEXT",
             "name": "zipcode",
             "displayName": "Zipcode",
-            "simpleValueType": true
+            "simpleValueType": true,
+            "help": "Zip code of the shipping address. Value is hashed before being stored in Criteo\u0027s database. Criteo does not store any PII and is compliant with all local regulations."
           }
         ],
         "enablingConditions": [
@@ -500,13 +507,17 @@ ___TEMPLATE_PARAMETERS___
             "type": "TEXT",
             "name": "din",
             "displayName": "Check-in Date",
-            "simpleValueType": true
+            "simpleValueType": true,
+            "valueHint": "yyyy-MM-dd",
+            "help": "Check-in / Departure date selected by the user"
           },
           {
             "type": "TEXT",
             "name": "dout",
             "displayName": "Check-out Date",
-            "simpleValueType": true
+            "simpleValueType": true,
+            "valueHint": "yyyy-MM-dd",
+            "help": "Check-out / Return date selected by the user"
           },
           {
             "type": "TEXT",
@@ -551,7 +562,8 @@ ___TEMPLATE_PARAMETERS___
             "type": "TEXT",
             "name": "store_id",
             "displayName": "Store ID",
-            "simpleValueType": true
+            "simpleValueType": true,
+            "help": "Unique physical store ID"
           },
           {
             "type": "TEXT",
@@ -565,7 +577,7 @@ ___TEMPLATE_PARAMETERS___
                 "type": "EQUALS"
               }
             ],
-            "help": "Will the sale will be picked up in a physical store (Click \u0026 Collect). true or false."
+            "help": "true if the sale will be picked up in a physical store (Click \u0026 Collect). Otherwise, false."
           }
         ],
         "enablingConditions": [
@@ -766,6 +778,9 @@ if(evt_type){
     }
   }
   
+  if(data.currency)
+    evt.currency = data.currency;
+  
   if(data.item)
     evt.item = data.item;
   if(data.list)
@@ -775,8 +790,6 @@ if(evt_type){
   
   events.push(evt);
 }
-
-
 
 // User Identifiers
 if(data.visitorId){
@@ -1098,4 +1111,5 @@ setup: |-
 ___NOTES___
 
 Created on 29/10/2021, 18:21:46
+
 
