@@ -15,5 +15,5 @@
 homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
-  - sha: f84f75bce8f054a38dfc5ea9a759c25944e51818
-    changeNotes: Initial release
+  - sha: ef557c8c5d9db9a8df85aac44019a7bc73c6577a
+    changeNotes: Renamed debug mode field
