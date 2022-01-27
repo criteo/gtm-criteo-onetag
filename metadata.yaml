@@ -16,9 +16,11 @@ homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
   # Latest version
+  - sha: 6e3c2517b196b32b0aabb9251dd06c475614c805 
+    changeNotes: Fix - handle zipcode parameter with Homepage event
+  # Older versions
   - sha: df6237773996f894b5d712d1e1ae1da1c0dd8934 
     changeNotes: Added terms of service
-  # Older versions
   - sha: f66c5abe0328262162ed186f0917639b31f7c154 
     changeNotes: Remove custom parameters type column
   - sha: ef557c8c5d9db9a8df85aac44019a7bc73c6577a
