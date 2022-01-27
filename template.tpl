@@ -1,12 +1,4 @@
-﻿___TERMS_OF_SERVICE___
-
-By creating or modifying this file you agree to Google Tag Manager's Community
-Template Gallery Developer Terms of Service available at
-https://developers.google.com/tag-manager/gallery-tos (or such other URL as
-Google may provide), as modified from time to time.
-
-
-___INFO___
+﻿___INFO___
 
 {
   "type": "TAG",
@@ -807,7 +799,7 @@ if(data.travel)
 }
 
 // Store Parameters
-if(data.store)
+if(data.store || data.location)
 {
   if(!isStoreEvent && !data.store_sale){
     if(data.zipcode){
@@ -1062,6 +1054,24 @@ scenarios:
     var event = getEvent(events, "viewStore");
     assertThat(event).isDefined();
     assertThat(event.user_segment).isEqualTo(18);
+
+    // Verify that the tag finished successfully.
+    assertApi('gtmOnSuccess').wasCalled();
+- name: viewHome - Zipcode - No Store Parameter
+  code: |-
+    const mockData = {
+    type: "viewHome",
+    location: true,
+    store: true,
+    zipcode: 1234
+    };
+    var events = runCode(mockData);
+
+    var viewHome_event = getEvent(events, "viewHome");
+    var setZipcode_event = getEvent(events, "setZipcode");
+    assertThat(viewHome_event).isDefined();
+    assertThat(setZipcode_event).isDefined();
+    assertThat(setZipcode_event.zipcode).isEqualTo(mockData.zipcode);
 
     // Verify that the tag finished successfully.
     assertApi('gtmOnSuccess').wasCalled();
