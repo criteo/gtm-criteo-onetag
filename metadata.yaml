@@ -16,9 +16,11 @@ homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
   # Latest version
+  - sha: df6237773996f894b5d712d1e1ae1da1c0dd8934 
+    changeNotes: Added terms of service
+  # Older versions
   - sha: f66c5abe0328262162ed186f0917639b31f7c154 
     changeNotes: Remove custom parameters type column
-  # Older versions
   - sha: ef557c8c5d9db9a8df85aac44019a7bc73c6577a
     changeNotes: Renamed debug mode field
   - sha: f84f75bce8f054a38dfc5ea9a759c25944e51818
