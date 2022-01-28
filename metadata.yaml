@@ -16,7 +16,7 @@ homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
   # Latest version
-  - sha: 6e3c2517b196b32b0aabb9251dd06c475614c805 
+  - sha: 7e86677afc7940cfa8d7ed715f5b9e04ce74bad0 
     changeNotes: Fix - handle zipcode parameter with Homepage event
   # Older versions
   - sha: df6237773996f894b5d712d1e1ae1da1c0dd8934 
