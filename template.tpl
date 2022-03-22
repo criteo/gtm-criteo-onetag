@@ -442,6 +442,20 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Customer ID",
         "simpleValueType": true,
         "help": "A non PII value that can identify a unique user in a CRM. Must be hashed. Examples: hashed CRM id, hashed user login."
+      },
+      {
+        "type": "TEXT",
+        "name": "gaid",
+        "displayName": "Google Advertising ID (GAID)",
+        "simpleValueType": true,
+        "help": "Android device advertising identifier"
+      },
+      {
+        "type": "TEXT",
+        "name": "idfa",
+        "displayName": "Identifier for Advertisers (IDFA)",
+        "simpleValueType": true,
+        "help": "Apple device advertising identifier"
       }
     ]
   },
@@ -690,7 +704,8 @@ evt.account = account;
 events.push(evt);
 
 // setSiteType
-events.push({ event: "setSiteType", type: "d"});
+if(!data.gaid && !data.idfa)
+  events.push({ event: "setSiteType", type: "d"});
 
 // Main Event
 var evt_type = data.type;
@@ -767,6 +782,16 @@ if(data.visitorId){
 
 if(data.customerId){
   evt = {event: "setCustomerId", id: data.customerId};
+  events.push(evt);
+}
+
+if(data.gaid){
+  evt = {event: "setGoogleAdvertisingId", gaid: data.gaid};
+  events.push(evt);
+}
+
+if(data.idfa){
+  evt = {event: "setAppleAdvertisingId", idfa: data.idfa};
   events.push(evt);
 }
 
@@ -1080,6 +1105,42 @@ scenarios:
     assertThat(viewHome_event).isDefined();
     assertThat(setZipcode_event).isDefined();
     assertThat(setZipcode_event.zipcode).isEqualTo(mockData.zipcode);
+
+    // Verify that the tag finished successfully.
+    assertApi('gtmOnSuccess').wasCalled();
+- name: viewHome - IDFA
+  code: |-
+    const mockData = {
+    type: "viewHome",
+    idfa: "ABCD"
+    };
+    var events = runCode(mockData);
+
+    var viewHome_event = getEvent(events, "viewHome");
+    var setAppleAdvertisingId_event = getEvent(events, "setAppleAdvertisingId");
+    var setSiteType_event = getEvent(events, "setSiteType");
+    assertThat(viewHome_event).isDefined();
+    assertThat(setAppleAdvertisingId_event).isDefined();
+    assertThat(setAppleAdvertisingId_event.idfa).isEqualTo(mockData.idfa);
+    assertThat(setSiteType_event).isUndefined();
+
+    // Verify that the tag finished successfully.
+    assertApi('gtmOnSuccess').wasCalled();
+- name: viewHome - GAID
+  code: |-
+    const mockData = {
+    type: "viewHome",
+    gaid: "ABCD"
+    };
+    var events = runCode(mockData);
+
+    var viewHome_event = getEvent(events, "viewHome");
+    var setGoogleAdvertisingId_event = getEvent(events, "setGoogleAdvertisingId");
+    var setSiteType_event = getEvent(events, "setSiteType");
+    assertThat(viewHome_event).isDefined();
+    assertThat(setGoogleAdvertisingId_event).isDefined();
+    assertThat(setGoogleAdvertisingId_event.gaid).isEqualTo(mockData.gaid);
+    assertThat(setSiteType_event).isUndefined();
 
     // Verify that the tag finished successfully.
     assertApi('gtmOnSuccess').wasCalled();
