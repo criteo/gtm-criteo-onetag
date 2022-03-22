@@ -16,9 +16,11 @@ homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
   # Latest version
+  - sha: 2f7fc32afb1ad2070baa0a82a82f392fc03e1b32
+    changeNotes: Implemented IDFA and GAID fields
+  # Older versions
   - sha: 5963a82563b00ea8dc0b175bc4a5ec6980a186ed
     changeNotes: Updated tag's description
-  # Older versions
   - sha: 7e54d301af558a982608d473455b6bb2ede7ae22
     changeNotes: Updated tag's description
   - sha: 7e86677afc7940cfa8d7ed715f5b9e04ce74bad0
