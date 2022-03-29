@@ -375,6 +375,29 @@ ___TEMPLATE_PARAMETERS___
         ],
         "help": "3-letter currency code (string). Example: \"USD\"",
         "valueHint": "USD"
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "advanced_event_options",
+        "checkboxText": "Advanced options",
+        "simpleValueType": true,
+        "subParams": [
+          {
+            "type": "CHECKBOX",
+            "name": "manualDising",
+            "checkboxText": "Manual DIS",
+            "simpleValueType": true,
+            "enablingConditions": [
+              {
+                "paramName": "advanced_event_options",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ],
+            "help": "Will prevent Criteo\u0027s automatic Dynamic Inventory Selection"
+          }
+        ],
+        "help": "Please get in touch with your Criteo representative before using these options"
       }
     ]
   },
@@ -774,6 +797,14 @@ if(evt_type){
   events.push(evt);
 }
 
+// Advanced event options
+if(data.advanced_event_options){
+  if(data.manualDising){
+    evt = {event: "manualDising"};
+    events.push(evt);
+  }
+}
+
 // User Identifiers
 if(data.visitorId){
   evt = {event: "setRetailerVisitorId", id: data.visitorId};
@@ -1141,6 +1172,22 @@ scenarios:
     assertThat(setGoogleAdvertisingId_event).isDefined();
     assertThat(setGoogleAdvertisingId_event.gaid).isEqualTo(mockData.gaid);
     assertThat(setSiteType_event).isUndefined();
+
+    // Verify that the tag finished successfully.
+    assertApi('gtmOnSuccess').wasCalled();
+- name: viewHome - manualDising
+  code: |-
+    const mockData = {
+    type: "viewHome",
+    advanced_event_options: true,
+    manualDising: true
+    };
+    var events = runCode(mockData);
+
+    var viewHome_event = getEvent(events, "viewHome");
+    var manualDising_event = getEvent(events, "manualDising");
+    assertThat(viewHome_event).isDefined();
+    assertThat(manualDising_event).isDefined();
 
     // Verify that the tag finished successfully.
     assertApi('gtmOnSuccess').wasCalled();
