@@ -703,8 +703,8 @@ if(data.debug_mode){
 }
 
 // Init
-setInWindow("criteo_q", [], false);
-var events = [];
+let criteo_q = copyFromWindow("criteo_q") || [];
+var events = [{event: "manualFlush"}];
 
 // setAccount
 var evt = {event: "setAccount"};
@@ -879,7 +879,12 @@ if(data.store || data.location)
   }  
 }
 
-setInWindow("criteo_q", events, true);
+for(let i=0; i<events.length; i++)
+  criteo_q.push(events[i]);
+
+criteo_q.push({event: "flushEvents"});
+
+setInWindow("criteo_q", criteo_q, true);
 
 if(data.debug_mode){
   log(events);
