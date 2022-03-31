@@ -16,11 +16,13 @@ homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
   # Latest version
+  - sha: 984b0ebfa858f02e79514080923bff552293c966
+    changeNotes: Minor bug fix - Fixed issue when several Criteo are implemented on the same page
+  # Older versions
   - sha: 98f3224ec22cd222eb084f30f32e45a5e6f15a17
     changeNotes: Implemented manualDising option
   - sha: 2f7fc32afb1ad2070baa0a82a82f392fc03e1b32
     changeNotes: Implemented IDFA and GAID fields
-  # Older versions
   - sha: 5963a82563b00ea8dc0b175bc4a5ec6980a186ed
     changeNotes: Updated tag's description
   - sha: 7e54d301af558a982608d473455b6bb2ede7ae22
