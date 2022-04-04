@@ -262,7 +262,7 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "help": "List of products in the user\u0027s basket (array).\nExample: [{id: \"a123\", price: 475, quantity: 1}]"
+        "help": "List of products in the user\u0027s basket (array or JSON string).\nExample: [{\"id\": \"a123\", \"price\": 475, \"quantity\": 1}]"
       },
       {
         "type": "TEXT",
@@ -687,6 +687,7 @@ ___TEMPLATE_PARAMETERS___
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
+const JSON = require('JSON');
 const log = require('logToConsole');
 const setInWindow = require('setInWindow');
 const copyFromWindow = require('copyFromWindow');
@@ -696,6 +697,13 @@ const makeString = require('makeString');
 
 var storeEvents = ["viewStore", "setStore", "reserveInStore", "checkAvailability"];
 var isStoreEvent = storeEvents.indexOf(data.type)!=-1;
+
+function to_array(my_var){
+    let arr;
+    if(typeof(my_var) === "string")
+      arr = JSON.parse(my_var);
+    return arr || my_var;
+}
 
 if(data.debug_mode){
   log("--- Criteo OneTag Start ---");
@@ -792,7 +800,7 @@ if(evt_type){
   if(data.list)
     evt.item = data.list;
   if(data.basket)
-    evt.item = data.basket;
+    evt.item = to_array(data.basket);
   
   events.push(evt);
 }
@@ -1094,6 +1102,21 @@ scenarios:
     assertThat(event).isDefined();
     assertThat(event.item).isEqualTo(mockData.basket);
 
+    // Verify that the tag finished successfully.
+    assertApi('gtmOnSuccess').wasCalled();
+- name: viewBasket - JSON Item list
+  code: |-
+    require('JSON');
+    const JSON = require('JSON');
+    const mockData = {
+        type: "viewBasket",
+        basket: '[{"id": "product_id", "quantity": 3, "price": 15.2}]'
+    };
+    var events = runCode(mockData);
+
+    var event = getEvent(events, "viewBasket");
+    assertThat(event).isDefined();
+    assertThat(event.item).isEqualTo(JSON.parse(mockData.basket));
     // Verify that the tag finished successfully.
     assertApi('gtmOnSuccess').wasCalled();
 - name: trackTransaction - Base
