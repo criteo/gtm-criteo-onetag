@@ -308,7 +308,7 @@ ___TEMPLATE_PARAMETERS___
               }
             ],
             "alwaysInSummary": true,
-            "help": "List of Product IDs viewed by the user (array).\nExample: [\"a123\", \"b456\", \"c789\"]"
+            "help": "List of Product IDs viewed by the user (array or JSON string).\nExample: [\"a123\", \"b456\", \"c789\"]"
           },
           {
             "type": "TEXT",
@@ -798,7 +798,7 @@ if(evt_type){
   if(data.item)
     evt.item = data.item;
   if(data.list)
-    evt.item = data.list;
+    evt.item = to_array(data.list);
   if(data.basket)
     evt.item = to_array(data.basket);
   
@@ -1062,6 +1062,21 @@ scenarios:
     \ = runCode(mockData);\n\nvar event = getEvent(events, \"viewList\");\nassertThat(event).isDefined();\n\
     assertThat(event.item).isEqualTo(mockData.list);\n\n// Verify that the tag finished\
     \ successfully.\nassertApi('gtmOnSuccess').wasCalled();"
+- name: viewList - JSON Item list
+  code: |-
+    const JSON = require("JSON");
+    const mockData = {
+    type: "viewList",
+    list: "[1,2,3,4]"
+    };
+    var events = runCode(mockData);
+
+    var event = getEvent(events, "viewList");
+    assertThat(event).isDefined();
+    assertThat(event.item).isEqualTo(JSON.parse(mockData.list));
+
+    // Verify that the tag finished successfully.
+    assertApi('gtmOnSuccess').wasCalled();
 - name: viewItem - Base
   code: |-
     const mockData = {
