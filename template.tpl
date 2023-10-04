@@ -901,7 +901,8 @@ criteo_q.push(
 	events[9],
 	events[10],
 	events[11],
-	events[12]
+	events[12],
+  { event: "flushEvents"}
 );
 
 setInWindow("criteo_q", criteo_q, true);
