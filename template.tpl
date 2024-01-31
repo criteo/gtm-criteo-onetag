@@ -208,6 +208,11 @@ ___TEMPLATE_PARAMETERS___
             "paramName": "type",
             "paramValue": "checkAvailability",
             "type": "EQUALS"
+          },
+          {
+            "paramName": "type",
+            "paramValue": "addToCart",
+            "type": "EQUALS"
           }
         ],
         "valueValidators": [
@@ -249,11 +254,6 @@ ___TEMPLATE_PARAMETERS___
           {
             "paramName": "type",
             "paramValue": "trackTransaction",
-            "type": "EQUALS"
-          },
-          {
-            "paramName": "type",
-            "paramValue": "addToCart",
             "type": "EQUALS"
           }
         ],
