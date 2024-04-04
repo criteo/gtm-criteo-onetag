@@ -781,7 +781,7 @@ if(evt_type){
     evt.user_segment = 18;  
   }
   
-  if(data.custom){
+  if(data.custom && data.params){
     var custom_params = data.params;
     for(var i=0; i<custom_params.length; i++){
       var param = custom_params[i];
