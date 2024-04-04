@@ -16,9 +16,11 @@ homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
   # Latest version
+  - sha: 8a34366e8e7238c28ea41b9c530d4919c8a1a943
+    changeNotes: Minot bug fix - Handle case when the Custom Parameters option is activated but no custom parameter is passed to the template
+  # Older versions
   - sha: 8a42dc69728546a3809f7a20229fe1eded8cb96d
     changeNotes: Explicitly flush events for every tag
-  # Older versions
   - sha: bbcb692ba3b340c9eac830910a82a87265f36db1
     changeNotes: Removed manual events flushing
   - sha: 105ad9d0c76c547ffab9e5da00d1e70b8f3fa1b8
