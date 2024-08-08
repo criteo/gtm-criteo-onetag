@@ -735,8 +735,10 @@ evt.account = account;
 events.push(evt);
 
 // setSiteType
-if(!data.gaid && !data.idfa)
-  events.push({ event: "setSiteType", type: "d"});
+if(!data.gaid && !data.idfa) {
+  var simpleSiteTypeCheck = /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d";
+  events.push({ event: "setSiteType", type: simpleSiteTypeCheck});
+}
 
 // Main Event
 var evt_type = data.type;
