@@ -453,6 +453,43 @@ ___TEMPLATE_PARAMETERS___
         "enablingConditions": []
       },
       {
+        "type": "PARAM_TABLE",
+        "name": "phoneNumbers",
+        "displayName": "Phone Numbers",
+        "paramTableColumns": [
+          {
+            "param": {
+              "type": "TEXT",
+              "name": "phone_number",
+              "displayName": "Phone Number",
+              "simpleValueType": true,
+              "help": "For Hashed: No leading \u0027+\u0027, include country code, remove non-numeric (e.g., +81-12-3456-7891 → 811234567891)\n\nFor Un-Hashed: Keep leading \u0027+\u0027, include country code, remove non-numeric (e.g., +12-3456-78910 → +12345678910)"
+            },
+            "isUnique": false
+          },
+          {
+            "param": {
+              "type": "SELECT",
+              "name": "hash_method",
+              "displayName": "Hash Method",
+              "macrosInSelect": false,
+              "selectItems": [
+                {
+                  "value": "",
+                  "displayValue": "None"
+                },
+                {
+                  "value": "sha256",
+                  "displayValue": "SHA256"
+                }
+              ],
+              "simpleValueType": true
+            },
+            "isUnique": false
+          }
+        ]
+      },
+      {
         "type": "TEXT",
         "name": "visitorId",
         "displayName": "Visitor ID",
@@ -853,6 +890,23 @@ if (data.emails){
       if(hash_method)
         evt.hash_method = hash_method;
       
+      events.push(evt);
+    }
+  }
+}
+
+if (data.phoneNumbers){
+  for(var i=0; i<data.phoneNumbers.length; i++){
+    var phone_number = data.phoneNumbers[i].phone_number;
+    var hash_method = data.phoneNumbers[i].hash_method;
+    var event_name = "setPhoneNumber";
+    
+    if(hash_method == "sha256")
+      event_name = "setSha256HashedPhoneNumber";
+        
+    if(phone_number){
+      var evt = {event: event_name};    
+      evt.phone_number = phone_number;
       events.push(evt);
     }
   }
