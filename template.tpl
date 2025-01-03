@@ -734,9 +734,16 @@ else{
 evt.account = account;
 events.push(evt);
 
-// setSiteType
-if(!data.gaid && !data.idfa)
-  events.push({ event: "setSiteType", type: "d"});
+// Site Type
+
+var site_type = "d";
+
+if(data.gaid || data.idfa)
+  site_type = "m";
+if(data.custom && data.params && data.params["site_type"])
+  site_type = data.params["site_type"];
+
+events.push({ event: "setSiteType", type: site_type});
 
 // Main Event
 var evt_type = data.type;
@@ -1209,7 +1216,6 @@ scenarios:
     assertThat(viewHome_event).isDefined();
     assertThat(setAppleAdvertisingId_event).isDefined();
     assertThat(setAppleAdvertisingId_event.idfa).isEqualTo(mockData.idfa);
-    assertThat(setSiteType_event).isUndefined();
 
     // Verify that the tag finished successfully.
     assertApi('gtmOnSuccess').wasCalled();
@@ -1227,7 +1233,6 @@ scenarios:
     assertThat(viewHome_event).isDefined();
     assertThat(setGoogleAdvertisingId_event).isDefined();
     assertThat(setGoogleAdvertisingId_event.gaid).isEqualTo(mockData.gaid);
-    assertThat(setSiteType_event).isUndefined();
 
     // Verify that the tag finished successfully.
     assertApi('gtmOnSuccess').wasCalled();
