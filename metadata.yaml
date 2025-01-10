@@ -16,9 +16,11 @@ homepage: "https://www.criteo.com/"
 documentation: "https://github.com/criteo/gtm-criteo-onetag/blob/master/README.md"
 versions:
   # Latest version
-  - sha: 8a34366e8e7238c28ea41b9c530d4919c8a1a943
-    changeNotes: Minot bug fix - Handle case when the Custom Parameters option is activated but no custom parameter is passed to the template
+  - sha: fb312d904d447101747ccc57e78eee2f420be8e3
+    changeNotes: Added support for Phone Numbers
   # Older versions
+  - sha: 8a34366e8e7238c28ea41b9c530d4919c8a1a943
+    changeNotes: Minor bug fix - Handle case when the Custom Parameters option is activated but no custom parameter is passed to the template
   - sha: 8a42dc69728546a3809f7a20229fe1eded8cb96d
     changeNotes: Explicitly flush events for every tag
   - sha: bbcb692ba3b340c9eac830910a82a87265f36db1
